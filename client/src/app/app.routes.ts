@@ -8,5 +8,9 @@ export const routes: Routes = [
   {
     path: 'bar-chart',
     loadComponent: () => import('./charts/bar-chart/bar-chart.component').then(m => m.BarChartComponent)
+  },
+  {
+    path: 'line-chart',
+    loadComponent: () => import('./charts/line-chart/line-chart.component').then(m => m.LineChartComponent)
   }
 ];

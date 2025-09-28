@@ -16,11 +16,11 @@ import { RouterLink } from '@angular/router';
           <p>Basic bar chart with weekly sales data</p>
         </a>
 
-        <div class="chart-card placeholder">
+        <a routerLink="/line-chart" class="chart-card">
           <div class="chart-icon">📈</div>
           <h3>Line Chart</h3>
-          <p>Coming soon</p>
-        </div>
+          <p>Smooth line chart with monthly revenue trend</p>
+        </a>
 
         <div class="chart-card placeholder">
           <div class="chart-icon">🥧</div>

@@ -198,9 +198,20 @@ angular-chart/
 │   └── angular.json
 ├── docs/                   # 📚 オフライン対応ドキュメント
 │   ├── README.md           # ドキュメントの目次・概要
-│   ├── getting-started/    # 入門ガイド
+│   ├── getting-started/    # ECharts入門ガイド
 │   │   ├── echarts-basics.md     # ECharts基本概念
 │   │   └── angular-integration.md # Angular統合方法
+│   ├── primeng/            # 📱 PrimeNG完全ガイド
+│   │   ├── getting-started/
+│   │   │   └── primeng-basics.md # PrimeNG基本概念・セットアップ
+│   │   ├── components/
+│   │   │   └── form-components.md # フォームコンポーネント実装例
+│   │   ├── theming/
+│   │   │   └── theme-customization.md # テーマ・スタイリング
+│   │   ├── integration/
+│   │   │   └── primeng-echarts.md # PrimeNG + ECharts統合
+│   │   └── api-reference/
+│   │       └── component-api.md  # PrimeNGコンポーネントAPI
 │   ├── examples/           # 実装例
 │   │   └── bar-chart.md    # 棒グラフ詳細実装例
 │   ├── troubleshooting/    # トラブルシューティング
@@ -239,18 +250,34 @@ angular-chart/
 
 | カテゴリ | ファイル | 内容 |
 |---------|---------|------|
-| **入門ガイド** | [docs/getting-started/echarts-basics.md](./docs/getting-started/echarts-basics.md) | EChartsの基本概念、設定構造、データの扱い方 |
+| **ECharts入門** | [docs/getting-started/echarts-basics.md](./docs/getting-started/echarts-basics.md) | EChartsの基本概念、設定構造、データの扱い方 |
 | | [docs/getting-started/angular-integration.md](./docs/getting-started/angular-integration.md) | ngx-echartsの統合、Signalsとの連携 |
+| **PrimeNG入門** | [docs/primeng/getting-started/primeng-basics.md](./docs/primeng/getting-started/primeng-basics.md) | PrimeNGの基本概念、セットアップ、基本コンポーネント |
+| **統合開発** | [docs/primeng/integration/primeng-echarts.md](./docs/primeng/integration/primeng-echarts.md) | PrimeNG + EChartsダッシュボード構築 |
 | **実装例** | [docs/examples/bar-chart.md](./docs/examples/bar-chart.md) | 棒グラフの詳細実装例（基本〜高度） |
+| | [docs/primeng/components/form-components.md](./docs/primeng/components/form-components.md) | PrimeNGフォームコンポーネント実装例 |
+| **スタイリング** | [docs/primeng/theming/theme-customization.md](./docs/primeng/theming/theme-customization.md) | PrimeNGテーマシステム、カスタマイズ方法 |
 | **問題解決** | [docs/troubleshooting/common-issues.md](./docs/troubleshooting/common-issues.md) | よくある問題とその解決策 |
-| **リファレンス** | [docs/api-reference/echarts-options.md](./docs/api-reference/echarts-options.md) | EChartsオプション完全リファレンス |
+| **APIリファレンス** | [docs/api-reference/echarts-options.md](./docs/api-reference/echarts-options.md) | EChartsオプション完全リファレンス |
+| | [docs/primeng/api-reference/component-api.md](./docs/primeng/api-reference/component-api.md) | PrimeNGコンポーネントAPI完全リファレンス |
 
 ### 🚀 クイックスタート（ドキュメント）
 
-1. **基本概念の学習**: [ECharts入門](./docs/getting-started/echarts-basics.md)
+#### ECharts + Angular開発
+1. **ECharts基本概念**: [ECharts入門](./docs/getting-started/echarts-basics.md)
 2. **Angular統合**: [Angular統合入門](./docs/getting-started/angular-integration.md)
-3. **実装練習**: [棒グラフ実装例](./docs/examples/bar-chart.md)
-4. **問題解決**: [トラブルシューティング](./docs/troubleshooting/common-issues.md)
+3. **チャート実装**: [棒グラフ実装例](./docs/examples/bar-chart.md)
+
+#### PrimeNG + ECharts統合開発
+1. **PrimeNG基本概念**: [PrimeNG入門](./docs/primeng/getting-started/primeng-basics.md)
+2. **統合ダッシュボード**: [PrimeNG + ECharts統合](./docs/primeng/integration/primeng-echarts.md)
+3. **UIコンポーネント**: [フォームコンポーネント実装](./docs/primeng/components/form-components.md)
+4. **テーマカスタマイズ**: [テーマ・スタイリング](./docs/primeng/theming/theme-customization.md)
+
+#### 問題解決・リファレンス
+- **トラブルシューティング**: [よくある問題と解決策](./docs/troubleshooting/common-issues.md)
+- **ECharts API**: [EChartsオプションリファレンス](./docs/api-reference/echarts-options.md)
+- **PrimeNG API**: [PrimeNGコンポーネントAPI](./docs/primeng/api-reference/component-api.md)
 
 > 💡 **ポイント**: オフライン環境では外部ドキュメントにアクセスできないため、`docs/`フォルダをブックマークして開発時の第一参照として活用してください。
 

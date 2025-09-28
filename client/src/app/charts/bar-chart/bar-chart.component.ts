@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal, computed, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from 'ngx-echarts';
 import type { EChartsOption } from 'echarts';
 
@@ -11,35 +11,11 @@ import type { EChartsOption } from 'echarts';
       useFactory: () => ({ echarts: () => import('echarts') })
     }
   ],
-  template: `
-    <div class="chart-container">
-      <h2>Bar Chart Sample</h2>
-      <div echarts [options]="chartOptions()" class="chart"></div>
-    </div>
-  `,
-  styles: [`
-    .chart-container {
-      padding: 20px;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    h2 {
-      color: #333;
-      margin-bottom: 20px;
-    }
-
-    .chart {
-      height: 500px;
-      width: 100%;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-  `],
+  templateUrl: './bar-chart.component.html',
+  styleUrls: ['./bar-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BarChartComponent implements OnInit {
+export class BarChartComponent {
   private readonly data = signal({
     categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     values: [120, 200, 150, 80, 70, 110, 130]
@@ -80,7 +56,4 @@ export class BarChartComponent implements OnInit {
     ]
   }));
 
-  ngOnInit(): void {
-    console.log('Bar chart component initialized');
-  }
 }

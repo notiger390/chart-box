@@ -65,7 +65,7 @@ npm run build -- --configuration development
 
 ### 基本チャート
 - [x] Bar Chart (棒グラフ) - `client/src/app/charts/bar-chart/`
-- [ ] Line Chart (折れ線グラフ)
+- [x] Line Chart (折れ線グラフ) - `client/src/app/charts/line-chart/`
 - [ ] Pie Chart (円グラフ)
 - [ ] Scatter Chart (散布図)
 - [ ] Area Chart (エリアチャート)

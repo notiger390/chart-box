@@ -66,10 +66,10 @@ npm run build -- --configuration development
 ### 基本チャート
 - [x] Bar Chart (棒グラフ) - `client/src/app/charts/bar-chart/`
 - [x] Line Chart (折れ線グラフ) - `client/src/app/charts/line-chart/`
-- [ ] Pie Chart (円グラフ)
-- [ ] Scatter Chart (散布図)
-- [ ] Area Chart (エリアチャート)
-- [ ] Radar Chart (レーダーチャート)
+- [x] Pie Chart (円グラフ) - `client/src/app/charts/pie-chart/`
+- [x] Scatter Chart (散布図) - `client/src/app/charts/scatter-chart/`
+- [x] Area Chart (エリアチャート) - `client/src/app/charts/area-chart/`
+- [x] Radar Chart (レーダーチャート) - `client/src/app/charts/radar-chart/`
 
 ### 応用チャート
 - [ ] Candlestick Chart (ローソク足)
@@ -284,11 +284,7 @@ angular-chart/
 ## 🚧 今後の実装予定
 
 ### チャート実装
-- [ ] Line Chart (折れ線グラフ)
-- [ ] Pie Chart (円グラフ)
-- [ ] Scatter Chart (散布図)
-- [ ] Area Chart (エリアチャート)
-- [ ] Radar Chart (レーダーチャート)
+- [ ] 応用チャート（Candlestick、Heatmap、Tree、Sankey、Gauge、Funnel）
 - [ ] 複合チャート（Bar + Line、Multiple Y-Axis等）
 
 ### ドキュメント拡張

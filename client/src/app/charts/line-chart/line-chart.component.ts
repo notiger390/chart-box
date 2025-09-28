@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, OnInit, computed, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from 'ngx-echarts';
 import type { EChartsOption } from 'echarts';
 
@@ -11,35 +11,11 @@ import type { EChartsOption } from 'echarts';
       useFactory: () => ({ echarts: () => import('echarts') })
     }
   ],
-  template: `
-    <div class="chart-container">
-      <h2>Line Chart Sample</h2>
-      <div echarts [options]="chartOptions()" class="chart"></div>
-    </div>
-  `,
-  styles: [`
-    .chart-container {
-      padding: 20px;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    h2 {
-      color: #333;
-      margin-bottom: 20px;
-    }
-
-    .chart {
-      height: 500px;
-      width: 100%;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-  `],
+  templateUrl: './line-chart.component.html',
+  styleUrls: ['./line-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LineChartComponent implements OnInit {
+export class LineChartComponent {
   private readonly seriesData = signal({
     categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
     values: [820, 932, 901, 934, 1290, 1330, 1320]
@@ -88,7 +64,4 @@ export class LineChartComponent implements OnInit {
     ]
   }));
 
-  ngOnInit(): void {
-    console.log('Line chart component initialized');
-  }
 }

@@ -1,0 +1,241 @@
+:host {
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f0f2f5;
+}
+
+.realtime-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.chart {
+  height: 500px;
+  width: 100%;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  border: 2px solid #e8f4f8;
+}
+
+.controls {
+  background: linear-gradient(135deg, #ffffff, #f8f9fa);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e9ecef;
+
+  h3 {
+    margin: 0 0 20px 0;
+    color: #2c3e50;
+    font-size: 1.4em;
+    font-weight: 600;
+    text-align: center;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 8px;
+  }
+}
+
+.control-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #495057;
+    font-weight: 500;
+
+    select, input {
+      padding: 6px 12px;
+      border: 1px solid #ced4da;
+      border-radius: 6px;
+      font-size: 14px;
+      background: white;
+      transition: all 0.2s;
+
+      &:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+      }
+    }
+
+    input[type="range"] {
+      width: 120px;
+      margin: 0 8px;
+    }
+
+    span {
+      font-weight: 600;
+      color: #2c3e50;
+      min-width: 40px;
+      font-family: 'Courier New', monospace;
+    }
+  }
+}
+
+.control-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  &:not(.active) {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+
+    &:hover {
+      background: linear-gradient(135deg, #218838, #1e7e34);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+    }
+  }
+
+  &.active {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    color: white;
+
+    &:hover {
+      background: linear-gradient(135deg, #c82333, #bd2130);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 16px;
+  background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+  border-radius: 8px;
+  border: 1px solid #bbdefb;
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 120px;
+
+    .label {
+      font-size: 12px;
+      color: #6c757d;
+      font-weight: 500;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .value {
+      font-size: 16px;
+      font-weight: 700;
+      color: #2c3e50;
+      font-family: 'Courier New', monospace;
+      background: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      border: 1px solid #dee2e6;
+      min-height: 24px;
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+
+// Animation for real-time updates
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.control-button.active {
+  animation: pulse 2s infinite;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .realtime-container {
+    padding: 15px;
+  }
+
+  .chart {
+    height: 400px;
+  }
+
+  .control-section {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+
+    label {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+    }
+  }
+
+  .stats {
+    flex-direction: column;
+    gap: 12px;
+
+    .stat-item {
+      flex-direction: row;
+      justify-content: space-between;
+      min-width: auto;
+
+      .label, .value {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .control-button {
+    width: 100%;
+  }
+}
+
+// Performance indicator
+.chart::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #28a745;
+  animation: heartbeat 1s infinite;
+  z-index: 10;
+}
+
+@keyframes heartbeat {
+  0% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.2); }
+  100% { opacity: 1; transform: scale(1); }
+}

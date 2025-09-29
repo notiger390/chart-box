@@ -1,4 +1,188 @@
-<div class="chart-container">
-  <h2>Line Chart Sample</h2>
-  <div echarts [options]="chartOptions()" class="chart"></div>
+<div class="line-chart-container">
+  <div
+    echarts
+    [options]="chartOptions()"
+    (chartInit)="onChartInit($event)"
+    (chartClick)="onChartClick($event)"
+    class="chart">
+  </div>
+
+  <div class="control-panel">
+    <h3>Control Panel</h3>
+
+    <div class="control-section">
+      <h4>Series Visibility</h4>
+      <div class="control-group">
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="showSeries1">
+          Product A
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="showSeries2">
+          Product B
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="showSeries3">
+          Product C
+        </label>
+      </div>
+    </div>
+
+    <div class="control-section">
+      <h4>Line Style</h4>
+      <div class="control-group">
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="smooth">
+          Smooth Line
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="showArea">
+          Show Area (Gradient)
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="showSymbol">
+          Show Symbols
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="showLabel">
+          Show Labels
+        </label>
+      </div>
+
+      <div class="control-row">
+        <label>
+          Line Width:
+          <input type="range" min="1" max="10" [(ngModel)]="lineWidth">
+          <span>{{ lineWidth() }}px</span>
+        </label>
+      </div>
+
+      <div class="control-row">
+        <label>
+          Line Type:
+          <select [(ngModel)]="lineType">
+            <option value="solid">Solid</option>
+            <option value="dashed">Dashed</option>
+            <option value="dotted">Dotted</option>
+          </select>
+        </label>
+      </div>
+
+      @if (showSymbol()) {
+        <div class="control-row">
+          <label>
+            Symbol Type:
+            <select [(ngModel)]="symbolType">
+              <option value="circle">Circle</option>
+              <option value="rect">Rectangle</option>
+              <option value="roundRect">Rounded Rectangle</option>
+              <option value="triangle">Triangle</option>
+              <option value="diamond">Diamond</option>
+              <option value="pin">Pin</option>
+              <option value="arrow">Arrow</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="control-row">
+          <label>
+            Symbol Size:
+            <input type="range" min="4" max="20" [(ngModel)]="symbolSize">
+            <span>{{ symbolSize() }}</span>
+          </label>
+        </div>
+      }
+
+      @if (showArea()) {
+        <div class="control-row">
+          <label>
+            Gradient Opacity:
+            <input type="range" min="0.1" max="0.8" step="0.1" [(ngModel)]="gradientOpacity">
+            <span>{{ gradientOpacity() }}</span>
+          </label>
+        </div>
+      }
+    </div>
+
+    <div class="control-section">
+      <h4>Markers & Annotations</h4>
+      <div class="control-group">
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="showMarkPoint">
+          Show Mark Points (Max/Min)
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="showMarkLine">
+          Show Mark Lines (Average/Target)
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="showMarkArea">
+          Show Mark Area (Q1 Peak)
+        </label>
+      </div>
+    </div>
+
+    <div class="control-section">
+      <h4>Interactive Features</h4>
+      <div class="control-group">
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="enableDataZoom">
+          Enable Data Zoom
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="enableToolbox">
+          Show Toolbox
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="animationEnabled">
+          Enable Animation
+        </label>
+      </div>
+
+      <div class="control-row">
+        <label>
+          Tooltip Trigger:
+          <select [(ngModel)]="tooltipTrigger">
+            <option value="axis">Axis</option>
+            <option value="item">Item</option>
+            <option value="none">None</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <div class="control-section">
+      <h4>Legend Settings</h4>
+      <div class="control-row">
+        <label>
+          Position:
+          <select [(ngModel)]="legendPosition">
+            <option value="top">Top</option>
+            <option value="bottom">Bottom</option>
+            <option value="left">Left</option>
+            <option value="right">Right</option>
+          </select>
+        </label>
+        <label>
+          Orientation:
+          <select [(ngModel)]="legendOrient">
+            <option value="horizontal">Horizontal</option>
+            <option value="vertical">Vertical</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <div class="control-section">
+      <h4>Actions</h4>
+      <div class="button-group">
+        <button class="action-button" (click)="updateData()">
+          🔄 Update Data
+        </button>
+        <button class="action-button" (click)="exportChart()">
+          💾 Export as PNG
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

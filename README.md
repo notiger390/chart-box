@@ -65,7 +65,12 @@ npm run build -- --configuration development
 
 ### 基本チャート
 - [x] Bar Chart (棒グラフ) - `client/src/app/charts/bar-chart/`
-- [x] Line Chart (折れ線グラフ) - `client/src/app/charts/line-chart/`
+- [x] ⭐ **Line Chart (折れ線グラフ)** - 豊富な機能実装済み ⭐
+  - [x] **Enhanced Line Chart** - 包括的コントロールパネル付き - `client/src/app/charts/line-chart/`
+  - [x] **Real-time Line Chart** - リアルタイムデータストリーミング - `client/src/app/charts/line-chart-realtime/`
+  - [x] **Step Line Chart** - ステップライン（離散データ対応） - `client/src/app/charts/line-chart-step/`
+  - [x] **Time Series Chart** - 高度な時系列データ可視化 - `client/src/app/charts/line-chart-timeseries/`
+  - [x] **Stacked Line Chart** - マルチレイヤー積み上げ表示 - `client/src/app/charts/line-chart-stacked/`
 - [x] Pie Chart (円グラフ) - `client/src/app/charts/pie-chart/`
 - [x] Scatter Chart (散布図) - `client/src/app/charts/scatter-chart/`
 - [x] Area Chart (エリアチャート) - `client/src/app/charts/area-chart/`
@@ -80,13 +85,13 @@ npm run build -- --configuration development
 - [ ] Funnel Chart (ファネルチャート)
 
 ### 複合チャート
+- [x] Stacked Line Chart (積み上げ折れ線) - 3モード対応（通常/積み上げ/100%積み上げ）
 - [ ] Bar + Line (棒グラフ＋折れ線)
 - [ ] Multiple Y-Axis (複数Y軸)
-- [ ] Stacked Chart (積み上げグラフ)
 
 ## 📖 使い方
 
-### 1. チャートコンポーネントの実装例
+### 1. 基本チャートコンポーネントの実装例
 
 ```typescript
 // Bar Chartの例 (client/src/app/charts/bar-chart/bar-chart.component.ts)
@@ -118,32 +123,88 @@ export class BarChartComponent {
 }
 ```
 
-### 2. チャートのカスタマイズ
+### 2. 高度なLine Chartの実装例
 
 ```typescript
-// カスタマイズ例: 色、アニメーション、インタラクション
-const customOptions: EChartsOption = {
-  color: ['#5470c6', '#91cc75', '#fac858'],
-  tooltip: {
-    trigger: 'axis',
-    formatter: '{b}: {c}'
-  },
-  animation: true,
-  animationDuration: 1000,
-  // その他のカスタマイズ...
-};
+// Enhanced Line Chart (client/src/app/charts/line-chart/line-chart.component.ts)
+@Component({
+  selector: 'app-line-chart',
+  imports: [NgxEchartsModule, FormsModule, CommonModule],
+  template: `
+    <div echarts [options]="chartOptions()" (chartInit)="onChartInit($event)" class="chart"></div>
+    <div class="control-panel">
+      <!-- インタラクティブなコントロールパネル -->
+      <label><input type="checkbox" [(ngModel)]="smooth">Smooth Line</label>
+      <label><input type="checkbox" [(ngModel)]="showArea">Show Area</label>
+      <label><input type="range" min="1" max="10" [(ngModel)]="lineWidth">Line Width</label>
+    </div>
+  `
+})
+export class LineChartComponent {
+  // コントロールパネルの設定
+  smooth = signal(true);
+  showArea = signal(true);
+  lineWidth = signal(3);
+
+  // リアルタイム反映されるチャートオプション
+  protected readonly chartOptions = computed(() => ({
+    series: [{
+      type: 'line',
+      smooth: this.smooth(),
+      lineStyle: { width: this.lineWidth() },
+      areaStyle: this.showArea() ? { opacity: 0.3 } : undefined,
+      data: [820, 932, 901, 934, 1290, 1330, 1320]
+    }]
+  }));
+}
 ```
 
-### 3. データの動的更新
+### 3. リアルタイムデータ更新の実装
 
 ```typescript
-// Signalを使用したデータ更新
-updateData(newData: any[]) {
-  this.data.set({
-    categories: newData.map(d => d.label),
-    values: newData.map(d => d.value)
-  });
-  // chartOptionsは自動的に再計算される
+// Real-time Line Chart (client/src/app/charts/line-chart-realtime/line-chart-realtime.component.ts)
+export class LineChartRealtimeComponent implements OnInit, OnDestroy {
+  private dataPoints = signal<DataPoint[]>([]);
+  private intervalId: any;
+
+  startRealTimeUpdates() {
+    this.intervalId = setInterval(() => {
+      const newPoint = {
+        time: new Date(),
+        value: this.generateRandomValue()
+      };
+      this.addDataPoint(newPoint);
+    }, 1000);
+  }
+
+  private addDataPoint(point: DataPoint) {
+    const currentData = this.dataPoints();
+    const newData = [...currentData, point];
+    if (newData.length > 50) newData.shift(); // 最大50点
+    this.dataPoints.set(newData);
+  }
+}
+```
+
+### 4. 時系列データチャートの実装
+
+```typescript
+// Time Series Chart (client/src/app/charts/line-chart-timeseries/line-chart-timeseries.component.ts)
+export class LineChartTimeseriesComponent {
+  protected readonly chartOptions = computed(() => ({
+    xAxis: {
+      type: 'time',
+      axisLabel: {
+        formatter: (value: number) => new Date(value).toLocaleDateString()
+      }
+    },
+    series: [{
+      type: 'line',
+      data: this.timeSeriesData().map(d => [d.time, d.value]),
+      markPoint: { data: [{ type: 'max' }, { type: 'min' }] },
+      markLine: { data: [{ type: 'average' }] }
+    }]
+  }));
 }
 ```
 
@@ -166,17 +227,38 @@ import { Dropdown } from 'primeng/dropdown';
 })
 ```
 
-## 🔄 データのインポート/エクスポート (実装予定)
+## 🌟 新機能ハイライト
 
-### インポート機能
+### 📈 Enhanced Line Chart Features
+- **包括的コントロールパネル**: 全ての設定をリアルタイム調整可能
+- **マルチシリーズサポート**: 最大3系列の同時表示・個別制御
+- **高度なマーク機能**: markPoint (最大/最小値)、markLine (平均/目標値)、markArea (範囲強調)
+- **グラデーション塗りつぶし**: 透明度調整可能なLinearGradient
+- **エクスポート機能**: ワンクリックでPNG画像保存
+- **インタラクティブツールボックス**: データビュー、マジックタイプ、復元機能
+
+### ⚡ Real-time Data Streaming
+- **ライブデータ更新**: 100ms〜5秒間隔で調整可能
+- **パフォーマンス監視**: FPS計測、データポイント数表示
+- **データ管理**: 自動古いデータ削除、volatility制御
+- **統計表示**: 最新値、トレンド、データ品質指標
+
+### 📊 Advanced Chart Types
+- **Step Line Chart**: start/middle/end/normal の4モード
+- **Time Series Chart**: 株価、気象、分析、売上の4データセット
+- **Stacked Line Chart**: 通常/積み上げ/100%積み上げの3モード
+
+## 🔄 データのインポート/エクスポート
+
+### ✅ 実装済みエクスポート機能
+- **PNG画像エクスポート**: チャートインスタンスから高解像度画像生成
+- **データビューエクスポート**: ツールボックスからCSV/Excel形式でデータ出力
+- **プログラムエクスポート**: `getDataURL()` APIによる画像取得
+
+### 🚧 実装予定インポート機能
 - CSV形式のデータインポート
 - JSON形式のデータインポート
 - Excel形式のデータインポート
-
-### エクスポート機能
-- PNG画像としてエクスポート
-- SVG画像としてエクスポート
-- PDFとしてエクスポート
 
 ## 📝 プロジェクト構成
 
@@ -189,6 +271,11 @@ angular-chart/
 │   │   ├── app/
 │   │   │   ├── charts/     # チャートコンポーネント
 │   │   │   │   ├── bar-chart/
+│   │   │   │   ├── line-chart/              # 📈 Enhanced Line Chart
+│   │   │   │   ├── line-chart-realtime/     # ⚡ Real-time Line Chart
+│   │   │   │   ├── line-chart-step/         # 📶 Step Line Chart
+│   │   │   │   ├── line-chart-timeseries/   # 🕒 Time Series Chart
+│   │   │   │   ├── line-chart-stacked/      # 📊 Stacked Line Chart
 │   │   │   │   └── ...
 │   │   │   ├── home/       # ホーム画面
 │   │   │   └── ...
@@ -288,20 +375,28 @@ angular-chart/
 - [ ] 複合チャート（Bar + Line、Multiple Y-Axis等）
 
 ### ドキュメント拡張
-- [ ] 折れ線グラフ実装例
+- [x] **折れ線グラフ実装例** - 5種類の高度な実装完了
 - [ ] 円グラフ実装例
 - [ ] 散布図実装例
 - [ ] パフォーマンス最適化ガイド
 - [ ] メモリリーク対策ガイド
-- [ ] レスポンシブデザインガイド
+- [x] **レスポンシブデザインガイド** - 全Line Chartでモバイル対応済み
 
 ### 機能追加
 - [ ] データインポート機能（CSV/JSON/Excel）
-- [ ] 画像エクスポート機能（PNG/SVG/PDF）
+- [x] **画像エクスポート機能（PNG）** - Line Charts全てで実装済み
+- [ ] SVG/PDFエクスポート機能
 - [ ] チャートテンプレートギャラリー
-- [ ] リアルタイムデータ更新のサンプル
-- [ ] ダークモード対応
+- [x] **リアルタイムデータ更新のサンプル** - Real-time Line Chart実装済み
+- [x] **ダークモード対応** - 全Line Chartsで実装済み
 - [ ] チャート間のデータ連携サンプル
+
+### 🆕 新規追加機能
+- [x] **インタラクティブコントロールパネル** - 全設定のリアルタイム調整
+- [x] **マルチチャートモード** - 同一データでの複数表現切り替え
+- [x] **高度なマークアノテーション** - 最大/最小値、平均値、目標値ライン
+- [x] **時系列データ対応** - Time軸、データズーム、ブラシ選択
+- [x] **パフォーマンス監視** - FPS表示、メモリ使用量追跡
 
 ## 🚀 デプロイメント
 

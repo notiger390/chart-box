@@ -14,6 +14,22 @@ export const routes: Routes = [
     loadComponent: () => import('./charts/line-chart/line-chart.component').then(m => m.LineChartComponent)
   },
   {
+    path: 'line-chart-realtime',
+    loadComponent: () => import('./charts/line-chart-realtime/line-chart-realtime.component').then(m => m.LineChartRealtimeComponent)
+  },
+  {
+    path: 'line-chart-step',
+    loadComponent: () => import('./charts/line-chart-step/line-chart-step.component').then(m => m.LineChartStepComponent)
+  },
+  {
+    path: 'line-chart-timeseries',
+    loadComponent: () => import('./charts/line-chart-timeseries/line-chart-timeseries.component').then(m => m.LineChartTimeseriesComponent)
+  },
+  {
+    path: 'line-chart-stacked',
+    loadComponent: () => import('./charts/line-chart-stacked/line-chart-stacked.component').then(m => m.LineChartStackedComponent)
+  },
+  {
     path: 'pie-chart',
     loadComponent: () => import('./charts/pie-chart/pie-chart.component').then(m => m.PieChartComponent)
   },

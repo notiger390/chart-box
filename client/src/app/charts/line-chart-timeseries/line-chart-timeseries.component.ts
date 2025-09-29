@@ -195,6 +195,8 @@ export class LineChartTimeseriesComponent {
   showMaxMin = signal(true);
   showOutliers = signal(false);
 
+  private readonly datasets = this.generateTimeSeriesData();
+
   // Generate time series data
   private generateTimeSeriesData() {
     const datasets = {
@@ -327,7 +329,7 @@ export class LineChartTimeseriesComponent {
   }
 
   getDatasetInfo() {
-    const data = this.generateTimeSeriesData()[this.currentDataset()];
+    const data = this.datasets[this.currentDataset()];
     const pointCount = data.data.length;
     const firstDate = data.data[0]?.time;
     const lastDate = data.data[data.data.length - 1]?.time;
@@ -363,7 +365,7 @@ export class LineChartTimeseriesComponent {
   }
 
   protected readonly chartOptions = computed(() => {
-    const dataset = this.generateTimeSeriesData()[this.currentDataset()];
+    const dataset = this.datasets[this.currentDataset()];
     const series: any[] = [];
 
     if (this.currentDataset() === 'stock' || this.currentDataset() === 'sales') {

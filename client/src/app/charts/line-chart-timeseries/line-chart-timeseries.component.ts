@@ -231,7 +231,7 @@ export class LineChartTimeseriesComponent {
       title: 'Stock Price Movement (AAPL)',
       data,
       yAxisName: 'Price ($)',
-      series: [{ name: 'AAPL', color: '#1f77b4' }]
+      series: [{ name: 'AAPL', color: '#1f77b4', key: 'value' }]
     };
   }
 
@@ -258,8 +258,8 @@ export class LineChartTimeseriesComponent {
       data,
       yAxisName: 'Temperature (°C) / Humidity (%)',
       series: [
-        { name: 'Temperature', color: '#ff7f0e' },
-        { name: 'Humidity', color: '#2ca02c' }
+        { name: 'Temperature', color: '#ff7f0e', key: 'temp' },
+        { name: 'Humidity', color: '#2ca02c', key: 'humidity' }
       ]
     };
   }
@@ -287,7 +287,7 @@ export class LineChartTimeseriesComponent {
       title: 'Monthly Sales Revenue',
       data,
       yAxisName: 'Revenue ($)',
-      series: [{ name: 'Revenue', color: '#d62728' }]
+      series: [{ name: 'Revenue', color: '#d62728', key: 'value' }]
     };
   }
 
@@ -316,8 +316,8 @@ export class LineChartTimeseriesComponent {
       data,
       yAxisName: 'Count',
       series: [
-        { name: 'Visitors', color: '#9467bd' },
-        { name: 'Page Views', color: '#8c564b' }
+        { name: 'Visitors', color: '#9467bd', key: 'visitors' },
+        { name: 'Page Views', color: '#8c564b', key: 'pageViews' }
       ]
     };
   }
@@ -365,103 +365,100 @@ export class LineChartTimeseriesComponent {
   protected readonly chartOptions = computed(() => {
     const dataset = this.generateTimeSeriesData()[this.currentDataset()];
     const series: any[] = [];
+    const legendEntries: string[] = [];
 
-    if (this.currentDataset() === 'stock' || this.currentDataset() === 'sales') {
-      const values = dataset.data.map((d: any) => d.value);
+    dataset.series.forEach((seriesInfo: any, index: number) => {
+      const timeValues = dataset.data.map((d: any) => d.time);
+      const values = dataset.data.map((d: any) => d[seriesInfo.key]);
+      const markPointData: any[] = [];
+
+      if (this.showMaxMin()) {
+        markPointData.push({ type: 'max', name: 'Max' });
+        markPointData.push({ type: 'min', name: 'Min' });
+      }
+
+      if (this.showOutliers()) {
+        const outliers = this.detectOutliers(values);
+        outliers.forEach((isOutlier, dataIndex) => {
+          if (!isOutlier) {
+            return;
+          }
+          markPointData.push({
+            name: 'Outlier',
+            coord: [timeValues[dataIndex], values[dataIndex]],
+            value: values[dataIndex],
+            symbol: 'diamond',
+            symbolSize: Math.max(8, this.symbolSize() + 4),
+            itemStyle: {
+              color: '#d62728',
+              borderColor: '#fff',
+              borderWidth: 1
+            }
+          });
+        });
+      }
+
+      const markPoint = markPointData.length > 0 ? {
+        data: markPointData,
+        label: {
+          formatter: (param: any) => param.data?.name ?? param.name
+        },
+        tooltip: {
+          formatter: (param: any) => {
+            const rawValue = Array.isArray(param.value) ? param.value[1] : param.value;
+            const label = param.data?.name ?? param.name ?? '';
+            const numericValue = typeof rawValue === 'number' ? rawValue : Number(rawValue);
+            if (!Number.isFinite(numericValue)) {
+              return label ? `${param.seriesName} ${label}` : param.seriesName;
+            }
+            const valueText = this.formatTooltipValue(numericValue);
+            return label ? `${param.seriesName} ${label}: ${valueText}` : `${param.seriesName}: ${valueText}`;
+          }
+        }
+      } : undefined;
+
+      const markLine = this.showTrendLine() ? this.createTrendLineMarkLine(timeValues, values, seriesInfo.color, seriesInfo.name) : undefined;
+
       series.push({
-        name: dataset.series[0].name,
+        name: seriesInfo.name,
         type: 'line',
         smooth: this.smoothLines(),
         symbol: this.symbolSize() > 0 ? 'circle' : 'none',
         symbolSize: this.symbolSize(),
         lineStyle: {
           width: this.lineWidth(),
-          color: dataset.series[0].color
+          color: seriesInfo.color
         },
-        areaStyle: this.showArea() ? {
-          color: dataset.series[0].color + '20'
+        areaStyle: this.showArea() && index === 0 ? {
+          color: this.applyAlpha(seriesInfo.color, 0.12)
         } : undefined,
-        data: dataset.data.map((d: any) => [d.time, d.value]),
-        markPoint: this.showMaxMin() ? {
-          data: [
-            { type: 'max', name: 'Max' },
-            { type: 'min', name: 'Min' }
-          ]
-        } : undefined
+        data: dataset.data.map((d: any) => [d.time, d[seriesInfo.key]]),
+        markPoint,
+        markLine,
+        emphasis: { focus: 'series' }
       });
 
+      legendEntries.push(seriesInfo.name);
+
       if (this.showMovingAverage()) {
-        const ma = this.calculateMovingAverage(values);
+        const movingAverage = this.calculateMovingAverage(values);
         series.push({
-          name: '7-Day MA',
+          name: `${seriesInfo.name} MA`,
           type: 'line',
           smooth: true,
           symbol: 'none',
           lineStyle: {
             width: 2,
-            color: '#ff7f0e',
-            type: 'dashed'
+            color: seriesInfo.color,
+            type: 'dashed',
+            opacity: 0.7
           },
-          data: dataset.data.map((d: any, i: number) => [d.time, ma[i]])
+          data: dataset.data.map((d: any, dataIndex: number) => [d.time, movingAverage[dataIndex]]),
+          emphasis: { focus: 'series' }
         });
+        legendEntries.push(`${seriesInfo.name} MA`);
       }
-    } else if (this.currentDataset() === 'weather') {
-      series.push({
-        name: 'Temperature',
-        type: 'line',
-        smooth: this.smoothLines(),
-        symbol: this.symbolSize() > 0 ? 'circle' : 'none',
-        symbolSize: this.symbolSize(),
-        lineStyle: {
-          width: this.lineWidth(),
-          color: '#ff7f0e'
-        },
-        areaStyle: this.showArea() ? {
-          color: '#ff7f0e20'
-        } : undefined,
-        data: dataset.data.map((d: any) => [d.time, d.temp])
-      });
-      series.push({
-        name: 'Humidity',
-        type: 'line',
-        smooth: this.smoothLines(),
-        symbol: this.symbolSize() > 0 ? 'circle' : 'none',
-        symbolSize: this.symbolSize(),
-        lineStyle: {
-          width: this.lineWidth(),
-          color: '#2ca02c'
-        },
-        data: dataset.data.map((d: any) => [d.time, d.humidity])
-      });
-    } else if (this.currentDataset() === 'analytics') {
-      series.push({
-        name: 'Visitors',
-        type: 'line',
-        smooth: this.smoothLines(),
-        symbol: this.symbolSize() > 0 ? 'circle' : 'none',
-        symbolSize: this.symbolSize(),
-        lineStyle: {
-          width: this.lineWidth(),
-          color: '#9467bd'
-        },
-        areaStyle: this.showArea() ? {
-          color: '#9467bd20'
-        } : undefined,
-        data: dataset.data.map((d: any) => [d.time, d.visitors])
-      });
-      series.push({
-        name: 'Page Views',
-        type: 'line',
-        smooth: this.smoothLines(),
-        symbol: this.symbolSize() > 0 ? 'circle' : 'none',
-        symbolSize: this.symbolSize(),
-        lineStyle: {
-          width: this.lineWidth(),
-          color: '#8c564b'
-        },
-        data: dataset.data.map((d: any) => [d.time, d.pageViews])
-      });
-    }
+    });
 
     return {
       title: {
@@ -490,7 +487,7 @@ export class LineChartTimeseriesComponent {
         }
       },
       legend: {
-        data: series.map(s => s.name),
+        data: legendEntries,
         top: '12%'
       },
       grid: {
@@ -542,9 +539,93 @@ export class LineChartTimeseriesComponent {
           formatter: (value: number) => this.formatAxisValue(value)
         }
       },
-      series: series
+      series
     };
   });
+
+  private detectOutliers(values: number[], k: number = 2): boolean[] {
+    if (values.length === 0) {
+      return [];
+    }
+
+    const mean = values.reduce((sum, value) => sum + value, 0) / values.length;
+    const variance = values.reduce((sum, value) => sum + Math.pow(value - mean, 2), 0) / values.length;
+    const stdDev = Math.sqrt(variance);
+
+    if (stdDev === 0) {
+      return values.map(() => false);
+    }
+
+    return values.map(value => Math.abs(value - mean) > k * stdDev);
+  }
+
+  private createTrendLineMarkLine(times: Date[], values: number[], color: string, seriesName: string) {
+    if (times.length < 2) {
+      return undefined;
+    }
+
+    const xValues = times.map(time => time.getTime());
+    const { slope, intercept } = this.calculateLinearRegression(xValues, values);
+    const startTime = xValues[0];
+    const endTime = xValues[xValues.length - 1];
+    const startValue = slope * startTime + intercept;
+    const endValue = slope * endTime + intercept;
+
+    return {
+      symbol: 'none',
+      silent: true,
+      lineStyle: {
+        color,
+        width: 2,
+        type: 'dashed',
+        opacity: 0.7
+      },
+      label: {
+        formatter: `${seriesName} Trend`,
+        align: 'right'
+      },
+      data: [
+        [
+          { coord: [startTime, startValue] },
+          { coord: [endTime, endValue] }
+        ]
+      ]
+    };
+  }
+
+  private calculateLinearRegression(xValues: number[], yValues: number[]) {
+    const n = xValues.length;
+
+    if (n === 0) {
+      return { slope: 0, intercept: 0 };
+    }
+
+    const sumX = xValues.reduce((sum, value) => sum + value, 0);
+    const sumY = yValues.reduce((sum, value) => sum + value, 0);
+    const sumXY = xValues.reduce((sum, value, index) => sum + value * yValues[index], 0);
+    const sumXX = xValues.reduce((sum, value) => sum + value * value, 0);
+
+    const denominator = n * sumXX - sumX * sumX;
+
+    if (denominator === 0) {
+      return { slope: 0, intercept: sumY / n };
+    }
+
+    const slope = (n * sumXY - sumX * sumY) / denominator;
+    const intercept = (sumY - slope * sumX) / n;
+
+    return { slope, intercept };
+  }
+
+  private applyAlpha(hexColor: string, alpha: number): string {
+    if (/^#([0-9a-fA-F]{6})$/.test(hexColor)) {
+      const alphaValue = Math.round(Math.min(Math.max(alpha, 0), 1) * 255)
+        .toString(16)
+        .padStart(2, '0');
+      return `${hexColor}${alphaValue}`;
+    }
+    return hexColor;
+  }
 
   private formatAxisTime(date: Date): string {
     switch (this.timeFormat()) {

@@ -17,13 +17,13 @@ import type { EChartsOption } from 'echarts';
 })
 export class LineChartComponent {
   private readonly seriesData = signal({
-    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+    categories: ['1月', '2月', '3月', '4月', '5月', '6月', '7月'],
     values: [820, 932, 901, 934, 1290, 1330, 1320]
   });
 
   protected readonly chartOptions = computed<EChartsOption>(() => ({
     title: {
-      text: 'Monthly Revenue Trend',
+      text: '月次売上推移',
       left: 'center'
     },
     tooltip: {
@@ -45,7 +45,7 @@ export class LineChartComponent {
     },
     series: [
       {
-        name: 'Revenue',
+        name: '売上高',
         type: 'line',
         smooth: true,
         symbol: 'circle',

@@ -17,16 +17,16 @@ import type { EChartsOption } from 'echarts';
 })
 export class PieChartComponent {
   private readonly salesShare = signal([
-    { value: 1048, name: 'Electronics' },
-    { value: 735, name: 'Apparel' },
-    { value: 580, name: 'Home Goods' },
-    { value: 484, name: 'Sports' },
-    { value: 300, name: 'Books' }
+    { value: 1048, name: '家電' },
+    { value: 735, name: '衣料品' },
+    { value: 580, name: '生活用品' },
+    { value: 484, name: 'スポーツ用品' },
+    { value: 300, name: '書籍' }
   ]);
 
   protected readonly chartOptions = computed<EChartsOption>(() => ({
     title: {
-      text: 'Sales Distribution by Category',
+      text: 'カテゴリ別売上構成',
       left: 'center'
     },
     tooltip: {
@@ -38,7 +38,7 @@ export class PieChartComponent {
     },
     series: [
       {
-        name: 'Sales Share',
+        name: '売上構成比',
         type: 'pie',
         radius: '60%',
         center: ['50%', '60%'],

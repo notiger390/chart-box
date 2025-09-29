@@ -40,7 +40,7 @@ export class ScatterChartComponent {
 
   protected readonly chartOptions = computed<EChartsOption>(() => ({
     title: {
-      text: 'Study Hours vs. Exam Score',
+      text: '学習時間と試験スコアの比較',
       left: 'center'
     },
     tooltip: {
@@ -48,15 +48,15 @@ export class ScatterChartComponent {
     },
     xAxis: {
       type: 'value',
-      name: 'Study Hours'
+      name: '学習時間（時間）'
     },
     yAxis: {
       type: 'value',
-      name: 'Exam Score'
+      name: '試験スコア'
     },
     series: [
       {
-        name: 'Students',
+        name: '学生',
         type: 'scatter',
         symbolSize: 16,
         emphasis: {
@@ -68,7 +68,7 @@ export class ScatterChartComponent {
         data: this.studyData().hours
       },
       {
-        name: 'Trend Line',
+        name: '傾向線',
         type: 'line',
         showSymbol: false,
         smooth: true,

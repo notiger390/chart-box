@@ -40,7 +40,7 @@ export class LineChartComponent {
 
   // データ管理
   private readonly seriesData = signal({
-    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    categories: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
     series1: [820, 932, 901, 934, 1290, 1330, 1320, 1250, 1180, 1390, 1420, 1450],
     series2: [620, 711, 823, 884, 915, 1140, 1180, 1100, 1050, 1200, 1250, 1280],
     series3: [450, 532, 601, 634, 750, 830, 820, 780, 750, 880, 920, 980]
@@ -86,7 +86,7 @@ export class LineChartComponent {
 
     if (this.showSeries1()) {
       series.push({
-        name: 'Product A',
+        name: '製品A',
         type: 'line',
         smooth: this.smooth(),
         symbol: this.showSymbol() ? this.symbolType() : 'none',
@@ -121,8 +121,8 @@ export class LineChartComponent {
             formatter: '{c}'
           },
           data: [
-            { type: 'max', name: 'Max' },
-            { type: 'min', name: 'Min' }
+            { type: 'max', name: '最大値' },
+            { type: 'min', name: '最小値' }
           ]
         } : undefined,
         markLine: this.showMarkLine() ? {
@@ -131,9 +131,9 @@ export class LineChartComponent {
             formatter: '{b}: {c}'
           },
           data: [
-            { type: 'average', name: 'Average' },
+            { type: 'average', name: '平均値' },
             {
-              name: 'Target',
+              name: '目標値',
               yAxis: 1200,
               lineStyle: { color: '#ff0000', type: 'dashed' }
             }
@@ -144,7 +144,7 @@ export class LineChartComponent {
 
     if (this.showSeries2()) {
       series.push({
-        name: 'Product B',
+        name: '製品B',
         type: 'line',
         smooth: this.smooth(),
         symbol: this.showSymbol() ? this.symbolType() : 'none',
@@ -179,8 +179,8 @@ export class LineChartComponent {
             formatter: '{c}'
           },
           data: [
-            { type: 'max', name: 'Max' },
-            { type: 'min', name: 'Min' }
+            { type: 'max', name: '最大値' },
+            { type: 'min', name: '最小値' }
           ]
         } : undefined,
         markLine: this.showMarkLine() ? {
@@ -189,7 +189,7 @@ export class LineChartComponent {
             formatter: '{b}: {c}'
           },
           data: [
-            { type: 'average', name: 'Average' }
+            { type: 'average', name: '平均値' }
           ]
         } : undefined
       });
@@ -197,7 +197,7 @@ export class LineChartComponent {
 
     if (this.showSeries3()) {
       series.push({
-        name: 'Product C',
+        name: '製品C',
         type: 'line',
         smooth: this.smooth(),
         symbol: this.showSymbol() ? this.symbolType() : 'none',
@@ -232,8 +232,8 @@ export class LineChartComponent {
             formatter: '{c}'
           },
           data: [
-            { type: 'max', name: 'Max' },
-            { type: 'min', name: 'Min' }
+            { type: 'max', name: '最大値' },
+            { type: 'min', name: '最小値' }
           ]
         } : undefined,
         markLine: this.showMarkLine() ? {
@@ -242,7 +242,7 @@ export class LineChartComponent {
             formatter: '{b}: {c}'
           },
           data: [
-            { type: 'average', name: 'Average' }
+            { type: 'average', name: '平均値' }
           ]
         } : undefined
       });
@@ -257,22 +257,22 @@ export class LineChartComponent {
         },
         data: [
           [
-            { xAxis: 'Mar' },
-            { xAxis: 'May' }
+            { xAxis: '3月' },
+            { xAxis: '5月' }
           ]
         ],
         label: {
           show: true,
           position: 'inside',
-          formatter: 'Q1 Peak'
+          formatter: '第1四半期のピーク'
         }
       };
     }
 
     return {
       title: {
-        text: 'Enhanced Line Chart with Rich Features',
-        subtext: 'Interactive Control Panel Demo',
+        text: '多機能ラインチャート',
+        subtext: 'インタラクティブなコントロールパネルのデモ',
         left: 'center',
         textStyle: {
           fontSize: 18,
@@ -299,7 +299,7 @@ export class LineChartComponent {
         }
       },
       legend: {
-        data: ['Product A', 'Product B', 'Product C'],
+        data: ['製品A', '製品B', '製品C'],
         orient: this.legendOrient(),
         ...(this.legendPosition() === 'top' && { top: '10%' }),
         ...(this.legendPosition() === 'bottom' && { bottom: '5%' }),
@@ -324,32 +324,32 @@ export class LineChartComponent {
         feature: {
           saveAsImage: {
             show: true,
-            title: 'Save as Image'
+            title: '画像として保存'
           },
           dataView: {
             show: true,
-            title: 'Data View',
+            title: 'データ表示',
             readOnly: false,
-            lang: ['Data View', 'Close', 'Refresh']
+            lang: ['データ表示', '閉じる', '更新']
           },
           magicType: {
             show: true,
             title: {
-              line: 'Line',
-              bar: 'Bar',
-              stack: 'Stack'
+              line: '折れ線',
+              bar: '棒グラフ',
+              stack: '積み上げ'
             },
             type: ['line', 'bar', 'stack']
           },
           restore: {
             show: true,
-            title: 'Restore'
+            title: 'リセット'
           },
           dataZoom: {
             show: true,
             title: {
-              zoom: 'Zoom',
-              back: 'Back'
+              zoom: 'ズーム',
+              back: 'リセット'
             }
           }
         }
@@ -386,7 +386,7 @@ export class LineChartComponent {
       },
       yAxis: {
         type: 'value',
-        name: 'Sales (units)',
+        name: '売上（単位）',
         nameLocation: 'middle',
         nameGap: 50,
         axisLine: {
@@ -423,7 +423,7 @@ export class LineChartComponent {
   }
 
   onChartClick(event: any) {
-    console.log('Chart clicked:', event);
+    console.log('チャートをクリック:', event);
   }
 
   // データ更新メソッド

@@ -17,14 +17,14 @@ import type { EChartsOption } from 'echarts';
 })
 export class AreaChartComponent {
   private readonly trafficData = signal({
-    categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    categories: ['月', '火', '水', '木', '金', '土', '日'],
     desktop: [320, 332, 301, 334, 390, 330, 320],
     mobile: [120, 132, 101, 134, 90, 230, 210]
   });
 
   protected readonly chartOptions = computed<EChartsOption>(() => ({
     title: {
-      text: 'Weekly Website Traffic',
+      text: '週間のウェブサイト訪問数',
       left: 'center'
     },
     tooltip: {
@@ -37,7 +37,7 @@ export class AreaChartComponent {
       }
     },
     legend: {
-      data: ['Desktop', 'Mobile'],
+      data: ['デスクトップ', 'モバイル'],
       bottom: 10
     },
     toolbox: {
@@ -65,7 +65,7 @@ export class AreaChartComponent {
     ],
     series: [
       {
-        name: 'Desktop',
+        name: 'デスクトップ',
         type: 'line',
         smooth: true,
         areaStyle: {},
@@ -75,7 +75,7 @@ export class AreaChartComponent {
         data: this.trafficData().desktop
       },
       {
-        name: 'Mobile',
+        name: 'モバイル',
         type: 'line',
         smooth: true,
         areaStyle: {},

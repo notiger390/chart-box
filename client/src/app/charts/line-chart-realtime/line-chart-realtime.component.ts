@@ -24,29 +24,29 @@ import type { EChartsOption } from 'echarts';
       </div>
 
       <div class="controls">
-        <h3>Real-time Line Chart Controls</h3>
+        <h3>リアルタイムラインチャートの設定</h3>
 
         <div class="control-section">
           <button
             class="control-button"
             [class.active]="isRunning()"
             (click)="toggleAnimation()">
-            {{ isRunning() ? '⏸️ Pause' : '▶️ Start' }} Real-time Updates
+            {{ isRunning() ? '⏸️ 一時停止' : '▶️ 開始' }} リアルタイム更新
           </button>
 
           <label>
-            Update Interval:
+            更新間隔:
             <select [(ngModel)]="updateInterval" (change)="onIntervalChange()">
-              <option [value]="100">100ms (Very Fast)</option>
-              <option [value]="500">500ms (Fast)</option>
-              <option [value]="1000">1s (Normal)</option>
-              <option [value]="2000">2s (Slow)</option>
-              <option [value]="5000">5s (Very Slow)</option>
+              <option [value]="100">100ms（超高速）</option>
+              <option [value]="500">500ms（高速）</option>
+              <option [value]="1000">1秒（標準）</option>
+              <option [value]="2000">2秒（やや遅い）</option>
+              <option [value]="5000">5秒（低速）</option>
             </select>
           </label>
 
           <label>
-            Data Points:
+            データ点数:
             <input
               type="range"
               min="20"
@@ -57,32 +57,32 @@ import type { EChartsOption } from 'echarts';
           </label>
 
           <label>
-            Data Volatility:
+            データの変動幅:
             <input
               type="range"
               min="0.1"
               max="2"
               step="0.1"
               [(ngModel)]="volatility">
-            <span>{{ volatility() }}x</span>
+            <span>{{ volatility() }}倍</span>
           </label>
 
           <button class="control-button" (click)="resetData()">
-            🔄 Reset Data
+            🔄 データをリセット
           </button>
         </div>
 
         <div class="stats">
           <div class="stat-item">
-            <span class="label">Current FPS:</span>
+            <span class="label">現在のFPS:</span>
             <span class="value">{{ fps() }}</span>
           </div>
           <div class="stat-item">
-            <span class="label">Data Points:</span>
+            <span class="label">データ点数:</span>
             <span class="value">{{ dataPoints().length }}</span>
           </div>
           <div class="stat-item">
-            <span class="label">Latest Values:</span>
+            <span class="label">最新値:</span>
             <span class="value">
               A: {{ latestValues().series1 }},
               B: {{ latestValues().series2 }},
@@ -266,16 +266,16 @@ export class LineChartRealtimeComponent implements OnInit, OnDestroy {
 
     return {
       title: {
-        text: 'Real-time Line Chart',
-        subtext: 'Live data streaming with smooth animations',
+        text: 'リアルタイムラインチャート',
+        subtext: '滑らかなアニメーションでライブデータを表示',
         left: 'center'
       },
       tooltip: {
         trigger: 'axis',
         formatter: (params: any) => {
           const point = params[0];
-          const time = new Date(point.axisValue).toLocaleTimeString();
-          let result = `Time: ${time}<br/>`;
+          const time = new Date(point.axisValue).toLocaleTimeString('ja-JP');
+          let result = `時刻: ${time}<br/>`;
           params.forEach((item: any) => {
             result += `<span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:${item.color};"></span>`;
             result += `${item.seriesName}: ${item.value[1].toFixed(1)}<br/>`;
@@ -284,7 +284,7 @@ export class LineChartRealtimeComponent implements OnInit, OnDestroy {
         }
       },
       legend: {
-        data: ['Series A', 'Series B', 'Series C'],
+        data: ['系列A', '系列B', '系列C'],
         top: '10%'
       },
       grid: {
@@ -298,13 +298,13 @@ export class LineChartRealtimeComponent implements OnInit, OnDestroy {
         type: 'time',
         axisLabel: {
           formatter: (value: number) => {
-            return new Date(value).toLocaleTimeString();
+            return new Date(value).toLocaleTimeString('ja-JP');
           }
         }
       },
       yAxis: {
         type: 'value',
-        name: 'Value',
+        name: '値',
         scale: true,
         splitLine: {
           lineStyle: {
@@ -314,7 +314,7 @@ export class LineChartRealtimeComponent implements OnInit, OnDestroy {
       },
       series: [
         {
-          name: 'Series A',
+          name: '系列A',
           type: 'line',
           smooth: true,
           symbol: 'circle',
@@ -339,7 +339,7 @@ export class LineChartRealtimeComponent implements OnInit, OnDestroy {
           data: data.map(point => [point.time, point.series1])
         },
         {
-          name: 'Series B',
+          name: '系列B',
           type: 'line',
           smooth: true,
           symbol: 'circle',
@@ -364,7 +364,7 @@ export class LineChartRealtimeComponent implements OnInit, OnDestroy {
           data: data.map(point => [point.time, point.series2])
         },
         {
-          name: 'Series C',
+          name: '系列C',
           type: 'line',
           smooth: true,
           symbol: 'circle',

@@ -44,5 +44,21 @@ export const routes: Routes = [
   {
     path: 'radar-chart',
     loadComponent: () => import('./charts/radar-chart/radar-chart.component').then(m => m.RadarChartComponent)
+  },
+  {
+    path: 'candlestick-chart',
+    loadComponent: () => import('./charts/candlestick-chart/candlestick-chart.component').then(m => m.CandlestickChartComponent)
+  },
+  {
+    path: 'heatmap-chart',
+    loadComponent: () => import('./charts/heatmap-chart/heatmap-chart.component').then(m => m.HeatmapChartComponent)
+  },
+  {
+    path: 'tree-chart',
+    loadComponent: () => import('./charts/tree-chart/tree-chart.component').then(m => m.TreeChartComponent)
+  },
+  {
+    path: 'gauge-chart',
+    loadComponent: () => import('./charts/gauge-chart/gauge-chart.component').then(m => m.GaugeChartComponent)
   }
 ];

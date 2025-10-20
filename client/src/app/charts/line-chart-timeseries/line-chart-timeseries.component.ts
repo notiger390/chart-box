@@ -24,149 +24,149 @@ import type { EChartsOption } from 'echarts';
       </div>
 
       <div class="controls">
-        <h3>Time Series Line Chart Controls</h3>
+        <h3>時系列ラインチャートの設定</h3>
 
         <div class="control-section">
-          <h4>📊 Data Sets</h4>
+          <h4>📊 データセット</h4>
           <div class="dataset-grid">
             <button
               class="dataset-card"
               [class.active]="currentDataset() === 'stock'"
               (click)="switchDataset('stock')">
               <div class="card-icon">📈</div>
-              <div class="card-title">Stock Prices</div>
-              <div class="card-subtitle">2024 Daily Data</div>
+              <div class="card-title">株価</div>
+              <div class="card-subtitle">2024年の日次データ</div>
             </button>
             <button
               class="dataset-card"
               [class.active]="currentDataset() === 'weather'"
               (click)="switchDataset('weather')">
               <div class="card-icon">🌡️</div>
-              <div class="card-title">Weather Data</div>
-              <div class="card-subtitle">Hourly Temperature</div>
+              <div class="card-title">気象データ</div>
+              <div class="card-subtitle">毎時の気温</div>
             </button>
             <button
               class="dataset-card"
               [class.active]="currentDataset() === 'sales'"
               (click)="switchDataset('sales')">
               <div class="card-icon">💰</div>
-              <div class="card-title">Sales Revenue</div>
-              <div class="card-subtitle">Monthly Performance</div>
+              <div class="card-title">売上高</div>
+              <div class="card-subtitle">月次パフォーマンス</div>
             </button>
             <button
               class="dataset-card"
               [class.active]="currentDataset() === 'analytics'"
               (click)="switchDataset('analytics')">
               <div class="card-icon">📊</div>
-              <div class="card-title">Web Analytics</div>
-              <div class="card-subtitle">Daily Visitors</div>
+              <div class="card-title">ウェブ解析</div>
+              <div class="card-subtitle">日次訪問者数</div>
             </button>
           </div>
         </div>
 
         <div class="control-section">
-          <h4>⚙️ Display Options</h4>
+          <h4>⚙️ 表示オプション</h4>
           <div class="option-grid">
             <label class="option-card">
               <input type="checkbox" [(ngModel)]="showDataZoom">
               <div class="option-content">
                 <div class="option-icon">🔍</div>
-                <div class="option-text">Data Zoom</div>
+                <div class="option-text">データズーム</div>
               </div>
             </label>
             <label class="option-card">
               <input type="checkbox" [(ngModel)]="showBrush">
               <div class="option-content">
                 <div class="option-icon">🖌️</div>
-                <div class="option-text">Brush Selection</div>
+                <div class="option-text">ブラシ選択</div>
               </div>
             </label>
             <label class="option-card">
               <input type="checkbox" [(ngModel)]="showToolbox">
               <div class="option-content">
                 <div class="option-icon">🛠️</div>
-                <div class="option-text">Toolbox</div>
+                <div class="option-text">ツールボックス</div>
               </div>
             </label>
             <label class="option-card">
               <input type="checkbox" [(ngModel)]="smoothLines">
               <div class="option-content">
                 <div class="option-icon">〰️</div>
-                <div class="option-text">Smooth Lines</div>
+                <div class="option-text">スムーズな線</div>
               </div>
             </label>
           </div>
         </div>
 
         <div class="control-section">
-          <h4>🎨 Styling</h4>
+          <h4>🎨 スタイリング</h4>
           <div class="styling-controls">
             <div class="control-row">
               <label>
-                Line Width:
+                線の太さ:
                 <input type="range" min="1" max="6" [(ngModel)]="lineWidth">
                 <span>{{ lineWidth() }}px</span>
               </label>
               <label>
-                Symbol Size:
+                シンボルサイズ:
                 <input type="range" min="0" max="12" [(ngModel)]="symbolSize">
-                <span>{{ symbolSize() === 0 ? 'None' : symbolSize() }}</span>
+                <span>{{ symbolSize() === 0 ? 'なし' : symbolSize() }}</span>
               </label>
             </div>
             <div class="control-row">
               <label>
-                Time Format:
+                時間表示:
                 <select [(ngModel)]="timeFormat">
-                  <option value="auto">Auto</option>
-                  <option value="date">Date Only</option>
-                  <option value="time">Time Only</option>
-                  <option value="datetime">Date & Time</option>
-                  <option value="month">Month/Year</option>
+                  <option value="auto">自動</option>
+                  <option value="date">日付のみ</option>
+                  <option value="time">時刻のみ</option>
+                  <option value="datetime">日付と時刻</option>
+                  <option value="month">年月</option>
                 </select>
               </label>
               <label class="checkbox-label">
                 <input type="checkbox" [(ngModel)]="showArea">
-                Area Fill
+                塗りつぶし
               </label>
             </div>
           </div>
         </div>
 
         <div class="control-section">
-          <h4>📈 Data Analysis</h4>
+          <h4>📈 データ分析</h4>
           <div class="analysis-options">
             <label class="checkbox-label">
               <input type="checkbox" [(ngModel)]="showTrendLine">
-              Trend Line
+              トレンドライン
             </label>
             <label class="checkbox-label">
               <input type="checkbox" [(ngModel)]="showMovingAverage">
-              Moving Average (7-day)
+              移動平均（7日）
             </label>
             <label class="checkbox-label">
               <input type="checkbox" [(ngModel)]="showMaxMin">
-              Max/Min Points
+              最大値/最小値
             </label>
             <label class="checkbox-label">
               <input type="checkbox" [(ngModel)]="showOutliers">
-              Outlier Detection
+              外れ値検出
             </label>
           </div>
         </div>
 
         <div class="info-panel">
-          <h4>📊 Dataset Information</h4>
+          <h4>📊 データセット情報</h4>
           <div class="info-content">
             <div class="info-item">
-              <span class="info-label">Data Points:</span>
+              <span class="info-label">データ点数:</span>
               <span class="info-value">{{ getDatasetInfo().pointCount }}</span>
             </div>
             <div class="info-item">
-              <span class="info-label">Time Range:</span>
+              <span class="info-label">期間:</span>
               <span class="info-value">{{ getDatasetInfo().timeRange }}</span>
             </div>
             <div class="info-item">
-              <span class="info-label">Frequency:</span>
+              <span class="info-label">頻度:</span>
               <span class="info-value">{{ getDatasetInfo().frequency }}</span>
             </div>
           </div>
@@ -194,6 +194,8 @@ export class LineChartTimeseriesComponent {
   showMovingAverage = signal(false);
   showMaxMin = signal(true);
   showOutliers = signal(false);
+
+  private readonly datasets = this.generateTimeSeriesData();
 
   // Generate time series data
   private generateTimeSeriesData() {
@@ -228,10 +230,10 @@ export class LineChartTimeseriesComponent {
     }
 
     return {
-      title: 'Stock Price Movement (AAPL)',
+      title: 'AAPL株価の推移',
       data,
-      yAxisName: 'Price ($)',
-      series: [{ name: 'AAPL', color: '#1f77b4' }]
+      yAxisName: '株価（ドル）',
+      series: [{ name: 'AAPL', color: '#1f77b4', key: 'value' }]
     };
   }
 
@@ -254,12 +256,12 @@ export class LineChartTimeseriesComponent {
     }
 
     return {
-      title: 'Weather Data (7-Day Hourly)',
+      title: '気象データ（7日間・毎時）',
       data,
-      yAxisName: 'Temperature (°C) / Humidity (%)',
+      yAxisName: '気温（℃）/ 湿度（%）',
       series: [
-        { name: 'Temperature', color: '#ff7f0e' },
-        { name: 'Humidity', color: '#2ca02c' }
+        { name: '気温', color: '#ff7f0e', key: 'temp' },
+        { name: '湿度', color: '#2ca02c', key: 'humidity' }
       ]
     };
   }
@@ -284,10 +286,10 @@ export class LineChartTimeseriesComponent {
     }
 
     return {
-      title: 'Monthly Sales Revenue',
+      title: '月次売上高',
       data,
-      yAxisName: 'Revenue ($)',
-      series: [{ name: 'Revenue', color: '#d62728' }]
+      yAxisName: '売上高（ドル）',
+      series: [{ name: '売上高', color: '#d62728', key: 'value' }]
     };
   }
 
@@ -312,12 +314,12 @@ export class LineChartTimeseriesComponent {
     }
 
     return {
-      title: 'Website Analytics (30 Days)',
+      title: 'ウェブ解析（30日間）',
       data,
-      yAxisName: 'Count',
+      yAxisName: '件数',
       series: [
-        { name: 'Visitors', color: '#9467bd' },
-        { name: 'Page Views', color: '#8c564b' }
+        { name: '訪問者数', color: '#9467bd', key: 'visitors' },
+        { name: 'ページビュー', color: '#8c564b', key: 'pageViews' }
       ]
     };
   }
@@ -327,22 +329,22 @@ export class LineChartTimeseriesComponent {
   }
 
   getDatasetInfo() {
-    const data = this.generateTimeSeriesData()[this.currentDataset()];
+    const data = this.datasets[this.currentDataset()];
     const pointCount = data.data.length;
     const firstDate = data.data[0]?.time;
     const lastDate = data.data[data.data.length - 1]?.time;
 
     const frequencies = {
-      stock: 'Daily (Trading days)',
-      weather: 'Hourly',
-      sales: 'Monthly',
-      analytics: 'Daily'
+      stock: '日次（取引日）',
+      weather: '毎時',
+      sales: '月次',
+      analytics: '日次'
     };
 
     return {
       pointCount,
       timeRange: firstDate && lastDate ?
-        `${firstDate.toLocaleDateString()} - ${lastDate.toLocaleDateString()}` : 'N/A',
+        `${firstDate.toLocaleDateString('ja-JP')} - ${lastDate.toLocaleDateString('ja-JP')}` : '該当なし',
       frequency: frequencies[this.currentDataset()]
     };
   }
@@ -363,110 +365,107 @@ export class LineChartTimeseriesComponent {
   }
 
   protected readonly chartOptions = computed(() => {
-    const dataset = this.generateTimeSeriesData()[this.currentDataset()];
+    const dataset = this.datasets[this.currentDataset()];
     const series: any[] = [];
+    const legendEntries: string[] = [];
 
-    if (this.currentDataset() === 'stock' || this.currentDataset() === 'sales') {
-      const values = dataset.data.map((d: any) => d.value);
+    dataset.series.forEach((seriesInfo: any, index: number) => {
+      const timeValues = dataset.data.map((d: any) => d.time);
+      const values = dataset.data.map((d: any) => d[seriesInfo.key]);
+      const markPointData: any[] = [];
+
+      if (this.showMaxMin()) {
+        markPointData.push({ type: 'max', name: '最大値' });
+        markPointData.push({ type: 'min', name: '最小値' });
+      }
+
+      if (this.showOutliers()) {
+        const outliers = this.detectOutliers(values);
+        outliers.forEach((isOutlier, dataIndex) => {
+          if (!isOutlier) {
+            return;
+          }
+          markPointData.push({
+            name: '外れ値',
+            coord: [timeValues[dataIndex], values[dataIndex]],
+            value: values[dataIndex],
+            symbol: 'diamond',
+            symbolSize: Math.max(8, this.symbolSize() + 4),
+            itemStyle: {
+              color: '#d62728',
+              borderColor: '#fff',
+              borderWidth: 1
+            }
+          });
+        });
+      }
+
+      const markPoint = markPointData.length > 0 ? {
+        data: markPointData,
+        label: {
+          formatter: (param: any) => param.data?.name ?? param.name
+        },
+        tooltip: {
+          formatter: (param: any) => {
+            const rawValue = Array.isArray(param.value) ? param.value[1] : param.value;
+            const label = param.data?.name ?? param.name ?? '';
+            const numericValue = typeof rawValue === 'number' ? rawValue : Number(rawValue);
+            if (!Number.isFinite(numericValue)) {
+              return label ? `${param.seriesName} ${label}` : param.seriesName;
+            }
+            const valueText = this.formatTooltipValue(numericValue, param.seriesName);
+            return label ? `${param.seriesName} ${label}: ${valueText}` : `${param.seriesName}: ${valueText}`;
+          }
+        }
+      } : undefined;
+
+      const markLine = this.showTrendLine() ? this.createTrendLineMarkLine(timeValues, values, seriesInfo.color, seriesInfo.name) : undefined;
+
       series.push({
-        name: dataset.series[0].name,
+        name: seriesInfo.name,
         type: 'line',
         smooth: this.smoothLines(),
         symbol: this.symbolSize() > 0 ? 'circle' : 'none',
         symbolSize: this.symbolSize(),
         lineStyle: {
           width: this.lineWidth(),
-          color: dataset.series[0].color
+          color: seriesInfo.color
         },
-        areaStyle: this.showArea() ? {
-          color: dataset.series[0].color + '20'
+        areaStyle: this.showArea() && index === 0 ? {
+          color: this.applyAlpha(seriesInfo.color, 0.12)
         } : undefined,
-        data: dataset.data.map((d: any) => [d.time, d.value]),
-        markPoint: this.showMaxMin() ? {
-          data: [
-            { type: 'max', name: 'Max' },
-            { type: 'min', name: 'Min' }
-          ]
-        } : undefined
+        data: dataset.data.map((d: any) => [d.time, d[seriesInfo.key]]),
+        markPoint,
+        markLine,
+        emphasis: { focus: 'series' }
       });
 
+      legendEntries.push(seriesInfo.name);
+
       if (this.showMovingAverage()) {
-        const ma = this.calculateMovingAverage(values);
+        const movingAverage = this.calculateMovingAverage(values);
         series.push({
-          name: '7-Day MA',
+          name: `${seriesInfo.name} 移動平均`,
           type: 'line',
           smooth: true,
           symbol: 'none',
           lineStyle: {
             width: 2,
-            color: '#ff7f0e',
-            type: 'dashed'
+            color: seriesInfo.color,
+            type: 'dashed',
+            opacity: 0.7
           },
-          data: dataset.data.map((d: any, i: number) => [d.time, ma[i]])
+          data: dataset.data.map((d: any, dataIndex: number) => [d.time, movingAverage[dataIndex]]),
+          emphasis: { focus: 'series' }
         });
+        legendEntries.push(`${seriesInfo.name} 移動平均`);
       }
-    } else if (this.currentDataset() === 'weather') {
-      series.push({
-        name: 'Temperature',
-        type: 'line',
-        smooth: this.smoothLines(),
-        symbol: this.symbolSize() > 0 ? 'circle' : 'none',
-        symbolSize: this.symbolSize(),
-        lineStyle: {
-          width: this.lineWidth(),
-          color: '#ff7f0e'
-        },
-        areaStyle: this.showArea() ? {
-          color: '#ff7f0e20'
-        } : undefined,
-        data: dataset.data.map((d: any) => [d.time, d.temp])
-      });
-      series.push({
-        name: 'Humidity',
-        type: 'line',
-        smooth: this.smoothLines(),
-        symbol: this.symbolSize() > 0 ? 'circle' : 'none',
-        symbolSize: this.symbolSize(),
-        lineStyle: {
-          width: this.lineWidth(),
-          color: '#2ca02c'
-        },
-        data: dataset.data.map((d: any) => [d.time, d.humidity])
-      });
-    } else if (this.currentDataset() === 'analytics') {
-      series.push({
-        name: 'Visitors',
-        type: 'line',
-        smooth: this.smoothLines(),
-        symbol: this.symbolSize() > 0 ? 'circle' : 'none',
-        symbolSize: this.symbolSize(),
-        lineStyle: {
-          width: this.lineWidth(),
-          color: '#9467bd'
-        },
-        areaStyle: this.showArea() ? {
-          color: '#9467bd20'
-        } : undefined,
-        data: dataset.data.map((d: any) => [d.time, d.visitors])
-      });
-      series.push({
-        name: 'Page Views',
-        type: 'line',
-        smooth: this.smoothLines(),
-        symbol: this.symbolSize() > 0 ? 'circle' : 'none',
-        symbolSize: this.symbolSize(),
-        lineStyle: {
-          width: this.lineWidth(),
-          color: '#8c564b'
-        },
-        data: dataset.data.map((d: any) => [d.time, d.pageViews])
-      });
-    }
+    });
 
     return {
       title: {
         text: dataset.title,
-        subtext: 'Interactive Time Series Analysis',
+        subtext: 'インタラクティブな時系列分析',
         left: 'center',
         textStyle: {
           fontSize: 18,
@@ -484,13 +483,13 @@ export class LineChartTimeseriesComponent {
           let result = this.formatTooltipTime(time) + '<br/>';
           params.forEach((item: any) => {
             result += `<span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:${item.color};"></span>`;
-            result += `${item.seriesName}: ${this.formatTooltipValue(item.value[1])}<br/>`;
+            result += `${item.seriesName}: ${this.formatTooltipValue(item.value[1], item.seriesName)}<br/>`;
           });
           return result;
         }
       },
       legend: {
-        data: series.map(s => s.name),
+        data: legendEntries,
         top: '12%'
       },
       grid: {
@@ -503,11 +502,11 @@ export class LineChartTimeseriesComponent {
       toolbox: this.showToolbox() ? {
         show: true,
         feature: {
-          saveAsImage: {},
-          dataView: { readOnly: false },
-          magicType: { type: ['line', 'bar'] },
-          restore: {},
-          dataZoom: {}
+          saveAsImage: { title: '画像として保存' },
+          dataView: { readOnly: false, title: 'データ表示', lang: ['データ表示', '閉じる', '更新'] },
+          magicType: { type: ['line', 'bar'], title: { line: '折れ線', bar: '棒グラフ' } },
+          restore: { title: 'リセット' },
+          dataZoom: { title: { zoom: 'ズーム', back: 'リセット' } }
         }
       } : undefined,
       brush: this.showBrush() ? {
@@ -542,51 +541,141 @@ export class LineChartTimeseriesComponent {
           formatter: (value: number) => this.formatAxisValue(value)
         }
       },
-      series: series
+      series
     };
   });
+
+  private detectOutliers(values: number[], k: number = 2): boolean[] {
+    if (values.length === 0) {
+      return [];
+    }
+
+    const mean = values.reduce((sum, value) => sum + value, 0) / values.length;
+    const variance = values.reduce((sum, value) => sum + Math.pow(value - mean, 2), 0) / values.length;
+    const stdDev = Math.sqrt(variance);
+
+    if (stdDev === 0) {
+      return values.map(() => false);
+    }
+
+    return values.map(value => Math.abs(value - mean) > k * stdDev);
+  }
+
+  private createTrendLineMarkLine(times: Date[], values: number[], color: string, seriesName: string) {
+    if (times.length < 2) {
+      return undefined;
+    }
+
+    const xValues = times.map(time => time.getTime());
+    const { slope, intercept } = this.calculateLinearRegression(xValues, values);
+    const startTime = xValues[0];
+    const endTime = xValues[xValues.length - 1];
+    const startValue = slope * startTime + intercept;
+    const endValue = slope * endTime + intercept;
+
+    return {
+      symbol: 'none',
+      silent: true,
+      lineStyle: {
+        color,
+        width: 2,
+        type: 'dashed',
+        opacity: 0.7
+      },
+      label: {
+        formatter: `${seriesName}のトレンド`,
+        align: 'right'
+      },
+      data: [
+        [
+          { coord: [startTime, startValue] },
+          { coord: [endTime, endValue] }
+        ]
+      ]
+    };
+  }
+
+  private calculateLinearRegression(xValues: number[], yValues: number[]) {
+    const n = xValues.length;
+
+    if (n === 0) {
+      return { slope: 0, intercept: 0 };
+    }
+
+    const sumX = xValues.reduce((sum, value) => sum + value, 0);
+    const sumY = yValues.reduce((sum, value) => sum + value, 0);
+    const sumXY = xValues.reduce((sum, value, index) => sum + value * yValues[index], 0);
+    const sumXX = xValues.reduce((sum, value) => sum + value * value, 0);
+
+    const denominator = n * sumXX - sumX * sumX;
+
+    if (denominator === 0) {
+      return { slope: 0, intercept: sumY / n };
+    }
+
+    const slope = (n * sumXY - sumX * sumY) / denominator;
+    const intercept = (sumY - slope * sumX) / n;
+
+    return { slope, intercept };
+  }
+
+  private applyAlpha(hexColor: string, alpha: number): string {
+    if (/^#([0-9a-fA-F]{6})$/.test(hexColor)) {
+      const alphaValue = Math.round(Math.min(Math.max(alpha, 0), 1) * 255)
+        .toString(16)
+        .padStart(2, '0');
+      return `${hexColor}${alphaValue}`;
+    }
+    return hexColor;
+  }
 
   private formatAxisTime(date: Date): string {
     switch (this.timeFormat()) {
       case 'date':
-        return date.toLocaleDateString();
+        return date.toLocaleDateString('ja-JP');
       case 'time':
-        return date.toLocaleTimeString();
+        return date.toLocaleTimeString('ja-JP');
       case 'datetime':
-        return date.toLocaleString();
+        return date.toLocaleString('ja-JP');
       case 'month':
-        return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+        return date.toLocaleDateString('ja-JP', { month: 'short', year: 'numeric' });
       default:
         return this.currentDataset() === 'weather' ?
-          date.toLocaleDateString() + '\n' + date.toLocaleTimeString() :
-          date.toLocaleDateString();
+          date.toLocaleDateString('ja-JP') + '\n' + date.toLocaleTimeString('ja-JP') :
+          date.toLocaleDateString('ja-JP');
     }
   }
 
   private formatTooltipTime(date: Date): string {
     return this.currentDataset() === 'weather' ?
-      date.toLocaleString() :
-      date.toLocaleDateString();
+      date.toLocaleString('ja-JP') :
+      date.toLocaleDateString('ja-JP');
   }
 
-  private formatTooltipValue(value: number): string {
+  private formatTooltipValue(value: number, seriesName?: string): string {
     if (this.currentDataset() === 'stock') {
-      return `$${value.toFixed(2)}`;
+      return `${value.toFixed(2)}ドル`;
     } else if (this.currentDataset() === 'weather') {
+      if (seriesName?.includes('気温')) {
+        return `${value.toFixed(1)}℃`;
+      }
+      if (seriesName?.includes('湿度')) {
+        return `${value.toFixed(1)}%`;
+      }
       return value.toFixed(1);
     } else if (this.currentDataset() === 'sales') {
-      return `$${value.toLocaleString()}`;
+      return `${value.toLocaleString()}ドル`;
     }
-    return value.toLocaleString();
+    return `${value.toLocaleString()}件`;
   }
 
   private formatAxisValue(value: number): string {
     if (this.currentDataset() === 'stock') {
-      return `$${value}`;
+      return `${value}ドル`;
     } else if (this.currentDataset() === 'sales') {
-      return `$${(value / 1000)}K`;
+      return `${(value / 1000)}千ドル`;
     } else if (this.currentDataset() === 'analytics') {
-      return `${(value / 1000)}K`;
+      return `${(value / 1000)}千件`;
     }
     return value.toString();
   }

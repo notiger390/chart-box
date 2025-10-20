@@ -18,12 +18,12 @@ import type { EChartsOption } from 'echarts';
 export class RadarChartComponent {
   private readonly skillScores = signal({
     indicators: [
-      { name: 'Communication', max: 100 },
-      { name: 'Problem Solving', max: 100 },
-      { name: 'Technical Skills', max: 100 },
-      { name: 'Teamwork', max: 100 },
-      { name: 'Leadership', max: 100 },
-      { name: 'Creativity', max: 100 }
+      { name: 'コミュニケーション', max: 100 },
+      { name: '問題解決力', max: 100 },
+      { name: '技術力', max: 100 },
+      { name: 'チームワーク', max: 100 },
+      { name: 'リーダーシップ', max: 100 },
+      { name: '創造性', max: 100 }
     ],
     candidateA: [85, 90, 95, 80, 70, 88],
     candidateB: [75, 80, 88, 85, 65, 92]
@@ -31,11 +31,11 @@ export class RadarChartComponent {
 
   protected readonly chartOptions = computed<EChartsOption>(() => ({
     title: {
-      text: 'Candidate Skill Comparison',
+      text: '候補者のスキル比較',
       left: 'center'
     },
     legend: {
-      data: ['Candidate A', 'Candidate B'],
+      data: ['候補者A', '候補者B'],
       bottom: 10
     },
     tooltip: {},
@@ -49,11 +49,11 @@ export class RadarChartComponent {
         data: [
           {
             value: this.skillScores().candidateA,
-            name: 'Candidate A'
+            name: '候補者A'
           },
           {
             value: this.skillScores().candidateB,
-            name: 'Candidate B'
+            name: '候補者B'
           }
         ]
       }

@@ -24,116 +24,116 @@ import type { EChartsOption } from 'echarts';
       </div>
 
       <div class="controls">
-        <h3>Step Line Chart Controls</h3>
+        <h3>ステップラインチャートの設定</h3>
 
         <div class="control-section">
-          <h4>Step Types</h4>
+          <h4>ステップの種類</h4>
           <div class="radio-group">
             <label class="radio-label">
               <input type="radio" name="stepType" value="start" [(ngModel)]="stepType">
-              Start (⬜️ └─)
+              開始位置（⬜️ └─）
             </label>
             <label class="radio-label">
               <input type="radio" name="stepType" value="middle" [(ngModel)]="stepType">
-              Middle (⬜️ ⊥─)
+              中央（⬜️ ⊥─）
             </label>
             <label class="radio-label">
               <input type="radio" name="stepType" value="end" [(ngModel)]="stepType">
-              End (⬜️ ─┐)
+              終了位置（⬜️ ─┐）
             </label>
             <label class="radio-label">
               <input type="radio" name="stepType" value="false" [(ngModel)]="stepType">
-              No Step (Normal Line)
+              ステップなし（通常の線）
             </label>
           </div>
         </div>
 
         <div class="control-section">
-          <h4>Line Style</h4>
+          <h4>ラインスタイル</h4>
           <div class="control-row">
             <label>
-              Line Width:
+              線の太さ:
               <input type="range" min="1" max="8" [(ngModel)]="lineWidth">
               <span>{{ lineWidth() }}px</span>
             </label>
             <label>
-              Symbol Size:
+              シンボルサイズ:
               <input type="range" min="0" max="15" [(ngModel)]="symbolSize">
-              <span>{{ symbolSize() === 0 ? 'None' : symbolSize() }}</span>
+              <span>{{ symbolSize() === 0 ? 'なし' : symbolSize() }}</span>
             </label>
           </div>
           <div class="control-row">
             <label class="checkbox-label">
               <input type="checkbox" [(ngModel)]="showArea">
-              Show Area Fill
+              塗りつぶしを表示
             </label>
             <label class="checkbox-label">
               <input type="checkbox" [(ngModel)]="showLabel">
-              Show Value Labels
+              値ラベルを表示
             </label>
           </div>
         </div>
 
         <div class="control-section">
-          <h4>Data Sets</h4>
+          <h4>データセット</h4>
           <div class="dataset-buttons">
             <button
               class="dataset-button"
               [class.active]="currentDataset() === 'sales'"
               (click)="switchDataset('sales')">
-              📊 Sales Data
+              📊 売上データ
             </button>
             <button
               class="dataset-button"
               [class.active]="currentDataset() === 'temperature'"
               (click)="switchDataset('temperature')">
-              🌡️ Temperature
+              🌡️ 気温データ
             </button>
             <button
               class="dataset-button"
               [class.active]="currentDataset() === 'performance'"
               (click)="switchDataset('performance')">
-              ⚡ Performance
+              ⚡ パフォーマンス
             </button>
             <button
               class="dataset-button"
               [class.active]="currentDataset() === 'stock'"
               (click)="switchDataset('stock')">
-              📈 Stock Price
+              📈 株価
             </button>
           </div>
         </div>
 
         <div class="control-section">
-          <h4>Animation & Effects</h4>
+          <h4>アニメーションと効果</h4>
           <div class="control-row">
             <label class="checkbox-label">
               <input type="checkbox" [(ngModel)]="animationEnabled">
-              Enable Animation
+              アニメーションを有効化
             </label>
             <label class="checkbox-label">
               <input type="checkbox" [(ngModel)]="connectNulls">
-              Connect Null Values
+              欠損値を連結
             </label>
           </div>
         </div>
 
         <div class="info-section">
-          <h4>ℹ️ Step Line Chart Information</h4>
+          <h4>ℹ️ ステップラインチャートの活用例</h4>
           <div class="info-content">
-            <p><strong>Use Cases:</strong></p>
+            <p><strong>活用シーン:</strong></p>
             <ul>
-              <li>📊 Sales targets and achievements over time</li>
-              <li>🌡️ Temperature readings from sensors</li>
-              <li>⚡ Performance metrics and thresholds</li>
-              <li>📈 Stock prices at specific intervals</li>
-              <li>🎯 Status changes and state transitions</li>
+              <li>📊 売上目標と達成状況の推移</li>
+              <li>🌡️ センサーによる温度計測</li>
+              <li>⚡ 性能指標やしきい値の管理</li>
+              <li>📈 時間帯別の株価推移</li>
+              <li>🎯 ステータスの変化や状態遷移</li>
             </ul>
-            <p><strong>Step Types:</strong></p>
+            <p><strong>ステップの意味:</strong></p>
             <ul>
-              <li><strong>Start:</strong> Value changes at the beginning of each period</li>
-              <li><strong>Middle:</strong> Value changes at the middle of each period</li>
-              <li><strong>End:</strong> Value changes at the end of each period</li>
+              <li><strong>開始:</strong> 各区間の開始時点で値が変化</li>
+              <li><strong>中央:</strong> 各区間の中間で値が変化</li>
+              <li><strong>終了:</strong> 各区間の終了時点で値が変化</li>
             </ul>
           </div>
         </div>
@@ -159,64 +159,64 @@ export class LineChartStepComponent {
   // Data sets
   private datasets = {
     sales: {
-      title: 'Monthly Sales Target vs Achievement',
-      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      title: '月次の売上目標と実績',
+      categories: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
       series: [
         {
-          name: 'Target',
+          name: '目標',
           data: [1000, 1100, 1200, 1150, 1300, 1250, 1400, 1350, 1500, 1450, 1600, 1700],
           color: '#e74c3c'
         },
         {
-          name: 'Achievement',
+          name: '実績',
           data: [950, 1150, 1100, 1200, 1280, 1300, 1380, 1420, 1480, 1520, 1580, 1650],
           color: '#2ecc71'
         }
       ]
     },
     temperature: {
-      title: 'Daily Temperature Range',
+      title: '1日の温度推移',
       categories: ['6:00', '9:00', '12:00', '15:00', '18:00', '21:00', '0:00', '3:00'],
       series: [
         {
-          name: 'Indoor (°C)',
+          name: '室内（℃）',
           data: [18, 20, 24, 26, 25, 22, 20, 18],
           color: '#3498db'
         },
         {
-          name: 'Outdoor (°C)',
+          name: '屋外（℃）',
           data: [12, 16, 22, 28, 26, 20, 16, 14],
           color: '#f39c12'
         }
       ]
     },
     performance: {
-      title: 'System Performance Metrics',
+      title: 'システム性能指標',
       categories: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
       series: [
         {
-          name: 'CPU Usage (%)',
+          name: 'CPU使用率（%）',
           data: [25, 30, 85, 90, 75, 40],
           color: '#9b59b6'
         },
         {
-          name: 'Memory Usage (%)',
+          name: 'メモリ使用率（%）',
           data: [45, 48, 65, 70, 68, 52],
           color: '#1abc9c'
         }
       ]
     },
     stock: {
-      title: 'Stock Price Movement (Hourly)',
+      title: '株価推移（時間ごと）',
       categories: ['9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'],
       series: [
         {
-          name: 'Stock A ($)',
+          name: '銘柄A（ドル）',
           data: [100, 105, 102, 108, 106, 110, 108, 112],
           color: '#e67e22'
         },
         {
-          name: 'Stock B ($)',
+          name: '銘柄B（ドル）',
           data: [85, 88, 87, 90, 92, 89, 91, 94],
           color: '#34495e'
         }
@@ -239,7 +239,7 @@ export class LineChartStepComponent {
     return {
       title: {
         text: dataset.title,
-        subtext: `Step Type: ${this.stepType() === 'false' ? 'Normal Line' : this.stepType().toUpperCase()}`,
+        subtext: `ステップタイプ: ${this.formatStepTypeLabel(this.stepType())}`,
         left: 'center',
         textStyle: {
           fontSize: 18,
@@ -351,10 +351,10 @@ export class LineChartStepComponent {
 
   private getYAxisName(): string {
     const names = {
-      sales: 'Units',
-      temperature: 'Temperature',
-      performance: 'Percentage (%)',
-      stock: 'Price ($)'
+      sales: '数量',
+      temperature: '温度（℃）',
+      performance: '割合（%）',
+      stock: '価格（ドル）'
     };
     return names[this.currentDataset()];
   }
@@ -362,12 +362,26 @@ export class LineChartStepComponent {
   private formatYAxisValue(value: number): string {
     const current = this.currentDataset();
     if (current === 'temperature') {
-      return `${value}°C`;
+      return `${value}℃`;
     } else if (current === 'performance') {
       return `${value}%`;
     } else if (current === 'stock') {
-      return `$${value}`;
+      return `${value}ドル`;
     }
     return value.toString();
+  }
+
+  private formatStepTypeLabel(step: 'start' | 'middle' | 'end' | 'false'): string {
+    switch (step) {
+      case 'start':
+        return '開始';
+      case 'middle':
+        return '中央';
+      case 'end':
+        return '終了';
+      case 'false':
+        return '通常線';
+    }
+    return '通常線';
   }
 }

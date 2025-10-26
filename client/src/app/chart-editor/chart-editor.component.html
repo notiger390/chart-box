@@ -2,27 +2,29 @@
   <h1>Chart Editor</h1>
 
   <!-- CSV Upload Section -->
-  <div class="upload-section">
-    <div class="upload-card">
-      <h2>Upload CSV File</h2>
-      <p class="upload-description">
-        CSVファイルをアップロードしてください。1行目はヘッダー、2行目以降がデータとして扱われます。
-      </p>
-      <div class="file-input-wrapper">
-        <input
-          type="file"
-          accept=".csv"
-          (change)="onFileSelected($event)"
-          id="csvFileInput"
-          class="file-input"
-        />
-        <label for="csvFileInput" class="file-input-label">
-          <span class="upload-icon">📁</span>
-          <span>Choose CSV File</span>
-        </label>
+  @if (!csvData()) {
+    <div class="upload-section">
+      <div class="upload-card">
+        <h2>Upload CSV File</h2>
+        <p class="upload-description">
+          CSVファイルをアップロードしてください。1行目はヘッダー、2行目以降がデータとして扱われます。
+        </p>
+        <div class="file-input-wrapper">
+          <input
+            type="file"
+            accept=".csv"
+            (change)="onFileSelected($event)"
+            id="csvFileInput"
+            class="file-input"
+          />
+          <label for="csvFileInput" class="file-input-label">
+            <span class="upload-icon">📁</span>
+            <span>Choose CSV File</span>
+          </label>
+        </div>
       </div>
     </div>
-  </div>
+  }
 
   <!-- Data Preview Section -->
   @if (csvData()) {

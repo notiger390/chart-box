@@ -1,0 +1,107 @@
+<div class="chart-editor-container">
+  <h1>Chart Editor</h1>
+
+  <!-- CSV Upload Section -->
+  @if (!csvData()) {
+    <div class="upload-section">
+      <div class="upload-card">
+        <h2>Upload CSV File</h2>
+        <p class="upload-description">
+          CSVファイルをアップロードしてください。1行目はヘッダー、2行目以降がデータとして扱われます。
+        </p>
+        <div class="file-input-wrapper">
+          <input
+            type="file"
+            accept=".csv"
+            (change)="onFileSelected($event)"
+            id="csvFileInput"
+            class="file-input"
+          />
+          <label for="csvFileInput" class="file-input-label">
+            <span class="upload-icon">📁</span>
+            <span>Choose CSV File</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Data Preview Section -->
+  @if (csvData()) {
+    <div class="data-section">
+      <h2>Data Preview</h2>
+      <div class="data-preview">
+        <table class="data-table">
+          <thead>
+            <tr>
+              @for (header of csvData()!.headers; track $index) {
+                <th>{{ header }}</th>
+              }
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of csvData()!.rows.slice(0, 5); track $index) {
+              <tr>
+                @for (cell of row; track $index) {
+                  <td>{{ cell }}</td>
+                }
+              </tr>
+            }
+          </tbody>
+        </table>
+        @if (csvData()!.rows.length > 5) {
+          <p class="preview-note">Showing first 5 rows of {{ csvData()!.rows.length }} total rows</p>
+        }
+      </div>
+
+      <!-- Column Selection -->
+      <div class="column-selection">
+        <h3>Chart Configuration</h3>
+        <div class="selection-grid">
+          <div class="selection-card">
+            <label class="selection-label">X-Axis Column:</label>
+            <select
+              [value]="selectedXAxis()"
+              (change)="selectedXAxis.set(+$any($event.target).value)"
+              class="column-select"
+            >
+              @for (header of csvData()!.headers; track $index) {
+                <option [value]="$index">{{ header }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="selection-card">
+            <label class="selection-label">Y-Axis Columns:</label>
+            <div class="checkbox-group">
+              @for (header of csvData()!.headers; track $index) {
+                @if ($index !== selectedXAxis()) {
+                  <label class="checkbox-label">
+                    <input
+                      type="checkbox"
+                      [checked]="isYAxisSelected($index)"
+                      (change)="toggleYAxis($index)"
+                    />
+                    <span>{{ header }}</span>
+                  </label>
+                }
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart Display -->
+    @if (chartOptions()) {
+      <div class="chart-section">
+        <h2>Chart Visualization</h2>
+        <div
+          echarts
+          [options]="chartOptions()!"
+          class="chart"
+        ></div>
+      </div>
+    }
+  }
+</div>

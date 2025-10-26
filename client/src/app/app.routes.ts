@@ -3,7 +3,11 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./home/home.component').then(m => m.HomeComponent)
+    loadComponent: () => import('./chart-editor/chart-editor.component').then(m => m.ChartEditorComponent)
+  },
+  {
+    path: 'sample-list',
+    loadComponent: () => import('./sample-list/sample-list.component').then(m => m.SampleListComponent)
   },
   {
     path: 'bar-chart',

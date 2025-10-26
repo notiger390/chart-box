@@ -1,6 +1,7 @@
 import { Component, ChangeDetectionStrategy, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from 'ngx-echarts';
+import * as XLSX from 'xlsx';
 
 interface CsvData {
   headers: string[];
@@ -111,12 +112,33 @@ export class ChartEditorComponent {
 
     if (!file) return;
 
+    const extension = file.name.split('.').pop()?.toLowerCase();
     const reader = new FileReader();
-    reader.onload = (e: ProgressEvent<FileReader>) => {
-      const text = e.target?.result as string;
-      this.parseCsv(text);
-    };
-    reader.readAsText(file);
+
+    switch (extension) {
+      case 'xlsx':
+      case 'xls':
+        reader.onload = (e: ProgressEvent<FileReader>) => {
+          const result = e.target?.result;
+          if (!result) {
+            alert('ファイルの読み込みに失敗しました');
+            return;
+          }
+          this.parseExcel(result as ArrayBuffer);
+        };
+        reader.readAsArrayBuffer(file);
+        break;
+      case 'csv':
+      case undefined:
+        reader.onload = (e: ProgressEvent<FileReader>) => {
+          const text = e.target?.result as string;
+          this.parseCsv(text);
+        };
+        reader.readAsText(file);
+        break;
+      default:
+        alert('対応していないファイル形式です。CSVまたはExcelファイルをアップロードしてください。');
+    }
   }
 
   private parseCsv(text: string): void {
@@ -131,10 +153,7 @@ export class ChartEditorComponent {
     const rows = lines.slice(1).map(line => this.parseCsvLine(line));
 
     this.csvData.set({ headers, rows });
-
-    // デフォルトで最初の列をX軸、2列目をY軸に設定
-    this.selectedXAxis.set(0);
-    this.selectedYAxis.set(headers.length > 1 ? [1] : []);
+    this.setDefaultSelections(headers);
   }
 
   private parseCsvLine(line: string): string[] {
@@ -170,5 +189,60 @@ export class ChartEditorComponent {
 
   isYAxisSelected(index: number): boolean {
     return this.selectedYAxis().includes(index);
+  }
+
+  private parseExcel(buffer: ArrayBuffer): void {
+    const workbook = XLSX.read(buffer, { type: 'array' });
+
+    const firstSheetName = workbook.SheetNames[0];
+    if (!firstSheetName) {
+      alert('Excelファイルには少なくとも2行（ヘッダー + データ）が必要です');
+      return;
+    }
+
+    const worksheet = workbook.Sheets[firstSheetName];
+    const sheetData = XLSX.utils.sheet_to_json<(string | number | boolean | null)[]>(worksheet, {
+      header: 1,
+      raw: false
+    });
+
+    if (!sheetData || sheetData.length < 2) {
+      alert('Excelファイルには少なくとも2行（ヘッダー + データ）が必要です');
+      return;
+    }
+
+    const [headerRow, ...dataRows] = sheetData;
+    const headers = headerRow.map(value => this.normalizeExcelCell(value));
+
+    const normalizedRows = dataRows
+      .map(row => this.normalizeExcelRow(row, headers.length))
+      .filter(row => row.some(cell => cell !== ''));
+
+    if (normalizedRows.length === 0) {
+      alert('Excelファイルには少なくとも2行（ヘッダー + データ）が必要です');
+      return;
+    }
+
+    this.csvData.set({ headers, rows: normalizedRows });
+    this.setDefaultSelections(headers);
+  }
+
+  private normalizeExcelRow(
+    row: (string | number | boolean | null)[] | undefined,
+    length: number
+  ): string[] {
+    const safeRow = row ?? [];
+    return Array.from({ length }, (_, index) => this.normalizeExcelCell(safeRow[index]));
+  }
+
+  private normalizeExcelCell(value: string | number | boolean | null): string {
+    if (value === null || value === undefined) return '';
+    if (typeof value === 'string') return value.trim();
+    return String(value);
+  }
+
+  private setDefaultSelections(headers: string[]): void {
+    this.selectedXAxis.set(0);
+    this.selectedYAxis.set(headers.length > 1 ? [1] : []);
   }
 }
